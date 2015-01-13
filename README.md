@@ -2,7 +2,7 @@
 
 This was my favorite game when I was in junior high. I could play this game well and beat people who were much older than me. I sometimes had to intentionally lose one or two games to keep my opponents happy, so they would play more games with me, but that’s then and sadly it’s different now :smiley:. Anyway, this project is not about how to win a connect five game; it’s a project for me to learn AngularJS. If you are interested in playing a real connect five game, you can find one [here]( http://www.i-gamer.net/play/1494.html). See how many times you can beat the computer! 
 
-As I’m going through the O’Reilly book, **AngularJS Up & Running**, I’ve written the code in this project, and I’m continuing to improve it whenever I have time. Other than learning about how to write a module, a controller, a directive with a partial html page, and a service, the main things I’ve learned in this project are two-way biding, scope, digest cycle, and performance, which are described in detail in later sections. 
+As I’m going through the O’Reilly book, **AngularJS Up & Running**, I’ve written the code in this project, and I’m continuing to improve it whenever I have time. Other than learning about how to write a module, a controller, a directive with a partial html page, and a service, the main things I’ve learned in this project are scope, digest cycle, and performance, which are described in detail in later sections. 
 
 ## Top Level Design  
 
@@ -36,7 +36,7 @@ Under the `connect_five` directory, there are these HTML and JS files:
 
 ### Game UI Updates   
 
-This issue is related to the AngularJS two-way biding feature. By default, the connect five game contains 200 HTML `<div>` elements, one for each chip, and 1000 HTML `<td>` elements, one for each cell. Each chip and cell has its own directive to handle its rendering. For example, marking the most current chip with a red circle, requires updating its CSS styles. If we simply were to call $apply() after each drag and drop, AngularJS would go to the root scope and call the watchers for the entire page to check for changes. In our case there are watchers for 1200+ HTML elements, which impacts performance.
+This issue is related to how AngularJS keeps the UI up to date. By default, the connect five game contains 200 HTML `<div>` elements, one for each chip, and 1000 HTML `<td>` elements, one for each cell. Each chip and cell has its own directive to handle its rendering. For example, marking the most current chip with a red circle, requires updating its CSS styles. If we simply were to call $apply() after each drag and drop, AngularJS would go to the root scope and call the watchers for the entire page to check for changes. In our case there are watchers for 1200+ HTML elements, which impacts performance.
 
 The solution is to save the isolated scope of each chip or cell directive in each chip or cell’s JS object, so that after updating the data of a chip or cell object, it calls `scope.$digest()` to update its UI. As an example, this solution reduces the number of function calls for setting chip CSS styles from hundreds to two for marking a chip as the most current chip.   
 
@@ -50,10 +50,11 @@ The easiest way to implement a function to start a new game is to recreate all d
 
 The solution is to move the chips back to their pots by only updating the chip and cell data objects that were changed when placing chips in cells with drag and drop, and sending an event to the `chipWidget` directive to reuse the code that places chips in their pots with random positioning. See `gameSetupService.resetBoardAndChips()` in `game_setup_serivce.js` and the `resetChipState` handler in `cell_chip_widget.js` for more details.     
 
-### Future Work
+## Future Work
 - Add the configure tab page. 
 - Add Jasmine unit tests. 
 - Make the code mobile friendly.
+- Create a simple server to allow two players to play remotely.
 - Add code to monitor chips on the game board, so it can determine the best move. 
 - Add code to play with computer. 
-- Design a way for players to add game rules with simple JS code, so two players can play against each other with their own preset game rules. 
+- Design a way for players to add game rules with simple JS code, so two players can play against each other with their own preset game rules.
