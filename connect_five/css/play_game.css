@@ -1,0 +1,233 @@
+#boardGameDemo {
+    float: left; 
+}
+
+.pot {
+    border-radius: 100%;
+    border: 2px solid black; 
+    width: 100px; 
+    height: 100px;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.rightPot {
+    position: relative;
+    top: 0px;
+    left: 288px;
+}
+
+.leftPot {
+    position: relative; 
+    top: 0px;
+    left: 0px;
+}
+
+.black {
+    background-color: black;
+}
+
+.white {
+    background-color: lightgray; 
+}
+
+.piece {    
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;    
+    display: inline-block;
+    margin: 1px;
+}
+
+.inPot {
+    position: absolute;
+}
+
+.board {
+    border: 1px solid gray;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-spacing: 0px;
+}
+    
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.boardColumn {
+    border: 1px solid gray; 
+    text-align: center;
+}
+    
+td .piece {
+    margin: auto;
+    border: 0px;
+}
+
+td .piece.current {
+    border: 1px solid red;
+}
+
+.message {
+    height: 20px; 
+    border: 1px solid black; 
+    padding: 0px 5px 0px 5px;
+    display: inline-block;
+    width: 80%;
+}
+
+.container {
+    width: 500px; 
+}
+
+.winner {
+    border: 2px solid blue; 
+}
+
+.noselect {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.message span {
+    position: relative;
+    display: inline-block;
+}
+
+.msg-animate-add {
+    animation: win-add 5s;
+    -webkit-animation: win-add 5s;
+}
+
+.msg-animate-remove {
+    animation: win-remove 5s;
+    -webkit-animation: win-remove 5s;
+}
+
+.msg-animate, 
+.msg-animate-add.msg-animate-add-active {
+    left: 75%;
+    color: red;
+    font-weight: bold; 
+}
+
+.msg-animate-remove.msg-animate-remove-active {
+    left: 0%;
+    color: black;
+    font-weight: normal;
+    
+}
+
+
+@keyframes win-add{
+    from {
+        left: 0%;
+        font-weight: normal;
+    }
+    
+    10%, 30%, 50%, 70% {
+        transform: rotateY(0deg);
+        -webkit-transform: rotateY(0deg);
+        -moz-transform: rotateY(0deg);
+        -ms-transform: rotateY(0deg);  
+    }
+    20%, 40%, 60%, 80%{
+        transform: rotateY(180deg);
+        -webkit-transform: rotateY(180deg);
+        -moz-transform: rotateY(180deg);
+        -ms-transform: rotateY(180deg); 
+    }
+ 
+    to {
+        left: 75%;
+        color: red;
+        font-weight: bold;
+    }
+}
+
+
+@-webkit-keyframes win-add{
+   from {
+        left: 0%;
+        color: black; 
+        font-weight: normal;
+    }
+    
+    10%, 30%, 50%, 70% {
+        transform: rotateY(0deg);
+        -webkit-transform: rotateY(0deg);
+        -moz-transform: rotateY(0deg);
+        -ms-transform: rotateY(0deg);  
+    }
+    20%, 40%, 60%, 80%{
+        transform: rotateY(180deg);
+        -webkit-transform: rotateY(180deg);
+        -moz-transform: rotateY(180deg);
+        -ms-transform: rotateY(180deg); 
+    }
+ 
+    to{
+        left: 75%;
+        color: red;
+        font-weight: bold;
+    }
+}
+
+@keyframes win-remove{
+    from {
+        left: 75%;
+        font-weight: bold;
+        color: red;
+    }
+    
+    10%, 30%, 50%, 70% {
+        transform: rotateY(0deg);
+        -webkit-transform: rotateY(0deg);
+        -moz-transform: rotateY(0deg);
+        -ms-transform: rotateY(0deg);  
+    }
+    20%, 40%, 60%, 80%{
+        transform: rotateY(180deg);
+        -webkit-transform: rotateY(180deg);
+        -moz-transform: rotateY(180deg);
+        -ms-transform: rotateY(180deg); 
+    }
+ 
+    to {
+        left: 0%;
+        color: black;
+        font-weight: normal;
+    }
+ 
+}
+
+
+@-webkit-keyframes win-remove{
+     from {
+        left: 75%;
+        font-weight: bold;
+        color: red;
+    }
+    
+    10%, 30%, 50%, 70% {
+        transform: rotateY(0deg);
+        -webkit-transform: rotateY(0deg);
+        -moz-transform: rotateY(0deg);
+        -ms-transform: rotateY(0deg);  
+    }
+    20%, 40%, 60%, 80%{
+        transform: rotateY(180deg);
+        -webkit-transform: rotateY(180deg);
+        -moz-transform: rotateY(180deg);
+        -ms-transform: rotateY(180deg); 
+    }
+ 
+    to {
+        left: 0%;
+        color: black;
+        font-weight: normal;
+    }
+}

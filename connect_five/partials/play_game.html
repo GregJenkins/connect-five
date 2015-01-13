@@ -1,0 +1,28 @@
+<div ng-controller="boardGame as ctrl" class="noselect">
+    <a demo-widget href="" id="boardGameDemo" ng-click="ctrl.startDemo()" current-chip="ctrl.currentChip" 
+       demo-object="ctrl.demoObject">Demo</a>
+    <div class="center container">
+        <div msg-widget class="message" msg-object="ctrl.msgObject">
+        </div>
+        <a href="" ng-click="ctrl.newGame(false)">New Game</a>
+    </div>
+    <br>
+    <div class="center container">
+        <div id="blackPot" class="pot leftPot" >
+            <div chip-widget ng-repeat="chip in ctrl.blackChips" chip-data="chip" id="{{chip.id}}" 
+                 current-chip="ctrl.currentChip"></div>
+        </div>
+         <div id="whitePot" class="pot rightPot">
+            <div chip-widget ng-repeat="chip in ctrl.whiteChips" chip-data="chip" id="{{chip.id}}" 
+                 current-chip="ctrl.currentChip"></div>
+        </div>
+    </div>
+    <table class="board center" >
+        <tr ng-repeat="a_row in ctrl.cells">
+            <td cell-widget ng-repeat="cell in a_row"  style-width="{{ctrl.cellWidth}}" 
+                style-height="{{ctrl.cellHeight}}" id="{{cell.id}}" cell-data="cell" 
+                get-chip="ctrl.getChip(chipId)" set-current-chip="ctrl.setCurrentChip(chip, prevParent)"></td>
+        </tr>
+    </table>
+</div>
+
