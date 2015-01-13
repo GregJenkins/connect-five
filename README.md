@@ -2,6 +2,8 @@
 
 This was my favorite game when I was in junior high. I could play this game well and beat people who were much older than me. I sometimes had to intentionally lose one or two games to keep my opponents happy, so they would play more games with me, but that’s then and sadly it’s different now :smiley:. Anyway, this project is not about how to win a connect five game; it’s a project for me to learn AngularJS. If you are interested in playing a real connect five game, you can find one [here]( http://www.i-gamer.net/play/1494.html). See how many times you can beat the computer! 
 
+You may also try the connect five game in this project [here]( http://gregjenkins.github.io/connect-five).
+
 As I’m going through the O’Reilly book, **AngularJS Up & Running**, I’ve written the code in this project, and I’m continuing to improve it whenever I have time. Other than learning about how to write a module, a controller, a directive with a partial html page, and a service, the main things I’ve learned in this project are scope, digest cycle, and performance, which are described in detail in later sections. 
 
 ## Top Level Design  
