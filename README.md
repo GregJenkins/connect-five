@@ -14,9 +14,9 @@ When a chip is placed on the game board, it has a red circle around it to mark i
 
 When five chips are connected together, either accidently or intentionally, the code detects it and marks five squares containing the five connected chips with blue borders. The message box on the top also animates a winning message from left to right, and changes the text styling from black text to red bold text. During the game, the top message box displays text to indicate which player’s turn it is. 
 
-The link “New Game” on the right side of the message box allows the player to start a new game, and returns all the chips back to their pots. The “Demo” link on the far left can auto play a demo game (if you’re too lazy to play :stuck_out_tongue_winking_eye:). The “Demo” link is hidden once it’s clicked to avoid multiple clicks. Starting a new game with the “New Game” link can bring back the “Demo” link. When the first chip is placed on the game board to start playing with drag and drop, it also hides the “Demo” link. 
+The link “New Game” on the right side of the message box allows the player to start a new game, and returns all the chips back to their pots. The “Demo” link on the far left can auto play a demo game. The “Demo” link is hidden once it’s clicked to avoid multiple clicks. Starting a new game with the “New Game” link can bring back the “Demo” link. When the first chip is placed on the game board to start playing with drag and drop, it also hides the “Demo” link. 
 
-A “Configure” tab is added to allow configuring the game board and number of chips. The number of chips for each pot can be from 10 to 1000 and the dimensions of the game board can be anywhere from 5 x 5 to 25 x 40. By default, there are 100 chips in each pot and a 25 x 40 game board. 
+A “Configure” tab is added to allow configuring the game board and number of chips. The number of chips for each pot can be from 10 to 500 and the dimensions of the game board can be anywhere from 5 x 5 to 25 x 40. By default, there are 100 chips in each pot and a 25 x 40 game board. 
 
 ## Project Files
 
