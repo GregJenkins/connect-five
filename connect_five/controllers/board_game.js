@@ -3,13 +3,16 @@ angular.module('connectFive')
     .service('winService', [winService])
     .service('gameSetupService', [gameSetupService])
     .service('demoService', [demoService])
-     .service('boardGameValues', [boardGameValues])
+    .service('boardGameValues', [boardGameValues])
+    .service('watchCountService', [watchCountService])
     .controller('boardGame', ['winService', 'gameSetupService', 
                               'demoService', '$scope', "$timeout",
-                              'boardGameValues',
+                              'boardGameValues', '$rootScope',
+                              'watchCountService',
                               function(winService, gameSetupService, 
                                        demoService, $scope, $timeout,
-                                       boardGameValues) {
+                                       boardGameValues, $rootScope,
+                                       watchCountService) {
         var self = this;
 
         // Intitalize the board game service 
@@ -147,4 +150,7 @@ angular.module('connectFive')
             self.currentChip.chip.scope.$digest();
             logMessage();
         };
+        // Log watch count when $apply() is called                         
+        watchCountService.logWatchCount($rootScope);                           
+            
     }]);
