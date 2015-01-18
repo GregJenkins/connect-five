@@ -1,12 +1,15 @@
 <div ng-controller="boardGame as ctrl" class="noselect">
+    <!-- demo link on the far left -->
     <a demo-widget href="" id="boardGameDemo" ng-click="ctrl.startDemo()" current-chip="ctrl.currentChip" 
        demo-object="ctrl.demoObject">Demo</a>
+    <!-- message box and the new game link -->  
     <div class="center container">
         <div msg-widget class="message" msg-object="ctrl.msgObject">
         </div>
         <a href="" ng-click="ctrl.newGame(false)">New Game</a>
     </div>
     <br>
+    <!-- two chip bowls -->
     <div class="center container">
         <div id="blackPot" class="pot leftPot" >
             <div chip-widget ng-repeat="chip in ctrl.blackChips" chip-data="chip" id="{{chip.id}}" 
@@ -17,6 +20,7 @@
                  current-chip="ctrl.currentChip"></div>
         </div>
     </div>
+    <!-- game board -->
     <table class="board center" >
         <tr ng-repeat="a_row in ctrl.cells">
             <td cell-widget ng-repeat="cell in a_row"  style-width="{{ctrl.cellWidth}}" 
@@ -25,4 +29,5 @@
         </tr>
     </table>
 </div>
+
 

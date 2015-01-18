@@ -18,14 +18,18 @@ The link “New Game” on the right side of the message box allows the player t
 
 A “Configure” tab is added to allow configuring the game board and number of chips. The number of chips for each pot can be from 10 to 500 and the dimensions of the game board can be anywhere from 5 x 5 to 25 x 40. By default, there are 100 chips in each pot and a 25 x 40 game board. 
 
+Note that setting the number of chips to the maximum amount (500) and the game board to the maximum size (25x40) causes the game to reload slowly on IE11.  
+
 ## Project Files
 
 Under the `connect_five` directory, there are these HTML and JS files:
 
 - `/index.html` – Starting page with two tabs, “Play Game” and “Configure”. It uses the `tabs` and `tab` directives to render tabs. 
-- `/partials/play_game.html` – A partial HTML page to display in the “Play Game” tab. It uses `ng-repeat` to create chips and the game board, and uses the `chipWidget` and `cellWidget` directives to render chips and cells (squares). It also handles the message box with the `msgWidget` directive and the “Demo” link with the `demoWidget` directive. The “New Game” link uses the `ng-click` directive to call `controller.newGame()`. 
+- `/partials/board_game.html` – A partial HTML page to display in the “Play Game” tab. It uses `ng-repeat` to create chips and the game board, and uses the `chipWidget` and `cellWidget` directives to render chips and cells (squares). It also handles the message box with the `msgWidget` directive and the “Demo” link with the `demoWidget` directive. The “New Game” link uses the `ng-click` directive to call `controller.newGame()`. 
 - `/partials/configure.html` – A partial HTML page for setting configurable options.  
-- `/controllers/play_game.js` – A controller to create JS arrays and objects for all chips and the game board with an injected service. It provides the `newGame()` method for the “New Game” link to call; instead of recreating all the chips and the game board, it returns the chips back to their pots and resets cells to their original states to avoid a delay. 
+- `/controllers/board_game.js` – A controller to create JS arrays and objects for all chips and the game board with an injected service. It provides the `newGame()` method for the “New Game” link to call; instead of recreating all the chips and the game board, it returns the chips back to their pots and resets cells to their original states to avoid a delay.
+-`/controllers/configure.js` – A controller to handle configurable options through sharing the `boardGameValues` service with the controller `boardGame`.   
+-`/services/board_game_values.js` – A service to provide board game values including the number of chips, the number of rows, and the number of columns. It also allows communication between the two controllers `boardGame` and `configure`.
 - `/services/demo_service.js` – A service containing a set of “moves” in an array.  It sends “move” events to “cellWidget” and places chips on the game board with a one second delay in between each chip.     
 - `/services/game_setup_service.js` – A service to create the JS arrays and objects for the entire game board including chip objects in pots, cell objects in the game board, and the message, current chip, and demo objects. 
 - `/services/win_service.js` – A service to be called when a chip is placed on the game board. It checks whether the chip is a winning chip that connects with four other chips.
@@ -48,12 +52,11 @@ This same technique is used in handling the message box, so we don’t need to c
 
 ### New Game 
 
-The easiest way to implement a function to start a new game is to recreate all data objects including chips, cells and message data objects, and call `$apply()` which is called internally by the AngularJS code when clicking a link. However, the game recreation performed poorly in IE10; it took a long time to reset back to its original state.
+The easiest way to implement a function to start a new game is to recreate all data objects including chips, cells and message data objects, and call `$apply()` which is called internally by the AngularJS code when clicking a link. However, the game recreation performed poorly in IE11; it took a long time to reset back to its original state.
 
 The solution is to move the chips back to their pots by only updating the chip and cell data objects that were changed when placing chips in cells with drag and drop, and sending an event to the `chipWidget` directive to reuse the code that places chips in their pots with random positioning. See `gameSetupService.resetBoardAndChips()` in `game_setup_serivce.js` and the `resetChipState` handler in `cell_chip_widget.js` for more details.     
 
 ## Future Work
-- Add the configure tab page. 
 - Add Jasmine unit tests. 
 - Make the code mobile friendly.
 - Create a simple server to allow two players to play remotely.
