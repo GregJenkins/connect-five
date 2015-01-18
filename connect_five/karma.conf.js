@@ -18,9 +18,10 @@ module.exports = function(config) {
         '../libs/angular.js',
         '../libs/angular-animate.js',
         '../libs/angular-mocks.js',
+        'widgets/connect_five_widget.js',
+        'widgets/*.js',
         'services/*.js',
         'controllers/*.js',
-        'widgets/*.js',
         'tests/*.js'
     ],
 

@@ -1,33 +1,36 @@
 <!DOCTYPE html>
-<html ng-app="connectFive">
+<html>
     <head>
         <meta chartset="utf-8">
         <title>Connect Five</title> 
         <!-- bootstrap style files -->
         <link rel="stylesheet" href="../libs/bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" href="../libs/bootstrap/css/bootstrap-theme.css">   
-        
+        <link rel="stylesheet" href="../libs/bootstrap/css/bootstrap-theme.css">  
+                
         <!-- connect five style files -->
         <link rel="stylesheet" href="css/connect_five.css">
-        <link rel="stylesheet" href="css/play_game.css">
+        <link rel="stylesheet" href="css/board_game.css">
+        <link rel="stylesheet" href="css/configure.css">
         
         <!-- angularjs lib files --> 
         <script src="../libs/angular.js"></script>
         <script src="../libs/angular-animate.js"></script>
         
-        <!-- connection five JS files --> 
+        <!-- connect five JS files --> 
+        <script src="widgets/connect_five_widget.js"></script>
         <script src="services/win_service.js"></script>
         <script src="services/game_setup_service.js"></script>
         <script src="services/demo_service.js"></script>
-        <script src="controllers/play_game.js"></script>
+        <script src="services/board_game_values.js"></script>
+        <script src="controllers/board_game.js"></script>
+        <script src="controllers/configure.js"></script>
         <script src="widgets/cell_chip_widgets.js"></script>
         <script src="widgets/msg_widget.js"></script>
         <script src="widgets/demo_widget.js"></script>
-        <script src="widgets/connect_five_widget.js"></script>
     </head>
-    <body>
+    <body ng-app="connectFive">
         <tabs>
-            <tab html-url="partials/play_game.html" name="Play Game"></tab>
+            <tab html-url="partials/board_game.html" name="Play Game"></tab>
             <tab html-url="partials/configure.html" name="Configure"></tab>
         </tabs>
     </body>

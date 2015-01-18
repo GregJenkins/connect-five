@@ -1,1 +1,42 @@
-<div>Add a tab page to configure the game board...</div>
+
+<form ng-controller="configure as ctrl" name="configureForm">
+    <div>
+    Number of Chips: <input type="number" name="numberofchips" min=10 max=500 required ng-model="ctrl.boardGame.numberOfChips">
+    </div>
+    <br>
+    <div class="boardGameInputs">
+    <!-- wrap a div around the table to display border and border radius -->
+    <div class="group">
+        <!-- label on top of border -->
+        <div class="groupLabel">Game Board</div>
+        <!-- 
+            the table changes its size to with the table's content, 
+            and the wrapper div changes its size with the table, 
+            so it can work well with long localized input labels 
+        --> 
+        <table>
+            <tr>
+                <td>
+                    Number of Rows:
+                </td>
+                <td>
+                    <input type="number" name="numberofrows" min=5 max=25 required ng-model="ctrl.boardGame.numberOfRows">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Number of Columns: 
+                </td>
+                <td>
+                    <input type="number" name="numberofcols" min=5 max=40 required ng-model="ctrl.boardGame.numberOfCols">
+                </td>
+            </tr>
+        </table>
+    </div>
+    </div>
+    <br>
+    <div>
+        <button ng-click="ctrl.reloadBoardGame()">Reload Game Board</button> 
+        <button ng-click="ctrl.setToDefault()" ng-show="!ctrl.isDefault()">Default</button>
+    </div>
+</form>

@@ -1,4 +1,4 @@
-angular.module('playGame')   
+angular.module('connectFive')   
     .directive('msgWidget', [function() {
         return {
             restrict: 'A',
@@ -8,6 +8,7 @@ angular.module('playGame')
             },
             link: function ($scope, $element, $attrs) {
                 $scope.msgObject.scope = $scope; 
+                // Set the animation CSS style 
                 $scope.getClassName = function() {
                     if ($scope.msgObject.animate)
                     {

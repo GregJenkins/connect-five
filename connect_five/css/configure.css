@@ -1,0 +1,29 @@
+.boardGameInputs {
+    position: relative; 
+    height: 100px;
+}
+
+.boardGameInputs .group {
+    position: absolute; 
+    border: 3px solid blue; 
+    border-radius: 5px;
+}
+
+.boardGameInputs .groupLabel {
+    position: absolute; 
+    top: -12px; 
+    left: 10px; 
+    background-color: white;
+}
+
+.boardGameInputs table td {
+    padding: 10px;
+}
+
+input.ng-dirty {
+    background-color: yellow; 
+}
+
+input.ng-invalid {
+    background-color: pink; 
+};
