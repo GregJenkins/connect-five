@@ -37,21 +37,23 @@ Under the `connect_five` directory, there are these HTML and JS files:
 - `/widgets/demo_widget.js` – A widget to hide and show the “Demo” link with `ng-show`. 
 - `/widgets/msg_widget.js` – A widget to set message text and its CSS styles for animation.   
 
-## Performance Issues 
+## Performance Discussions 
 
 ### Game UI Updates   
 
-This issue is related to how AngularJS keeps the UI up to date. By default, the connect five game contains 200 HTML `<div>` elements, one for each chip, and 1000 HTML `<td>` elements, one for each cell. Each chip and cell has its own directive to handle its rendering. For example, marking the most current chip with a red circle, requires updating its CSS styles. If we simply were to call $apply() after each drag and drop, AngularJS would go to the root scope and call the watchers for the entire page to check for changes. In our case there are watchers for 1200+ HTML elements, which impacts performance.
+This issue is related to how AngularJS keeps the UI up to date. By default, the connect five game contains 200 HTML `<div>` elements, one for each chip, and 1000 HTML `<td>` elements, one for each cell. Each chip and cell has its own directive to handle its rendering. For example, marking the most current chip with a red circle, requires updating its CSS styles. If we simply were to call `$apply()` after each drag and drop, AngularJS would go to the root scope and call the watchers for the entire page to check for changes. In our case there are watchers for 1200+ HTML elements, which may impact performance, depending on how the code is written.
 
-The solution is to save the isolate scope of each chip or cell directive in each chip or cell’s JS object, so that after updating the data of a chip or cell object, it calls `scope.$digest()` to update its UI. As an example, this solution reduces the number of function calls for setting chip CSS styles from hundreds to two for marking a chip as the most current chip.   
+For this project, the performance impact is not significant is both Chrome and IE11. This can be roughly measured by monitoring the watcher count in the browser console when clicking on the “New Game” link after running a demo. It displays the watcher count in the browser console at the beginning of executing `$digest()` (called by `$apply()`). Since the board is dirty, it runs `$digest()` twice which allows us to see how fast the first `$digest()` runs.   
 
-This same technique is used in handling the message box, so we don’t need to call `$apply()` to update the message text after setting the animation CSS style. However, when selecting the “New Game” or “Demo” link, it calls `$apply()` internally in AngularJS code, so it still goes through all watchers for the entire page. The good thing is that the “Demo” link can only be clicked before making any changes, so it doesn’t need to repetitively call `$digest()` to reach a stable state and the “New Game” link only needs to deal with as many changes as the players have done to the game board (see the next section). 
+If running `$apply()` against all elements becomes a performance issue, one solution is to save the isolate scope of each chip or cell directive in each chip or cell’s JS object, so that after updating the data of a chip or cell object, it calls `scope.$digest()` to update its UI. As an example, this solution reduces the number of function calls for setting chip CSS styles from hundreds to two for marking a chip as the most current chip. This is the way the project is implemented.   
+
+This same technique is used in handling the message box, so we don’t need to call `$apply()` to update the message text after setting the animation CSS style. However, when selecting the “New Game” or “Demo” link, it calls `$apply()` internally in AngularJS code, so it still goes through all watchers for the entire page. 
 
 [Here](https://docs.angularjs.org/guide/scope) is a document about the digest cycle (Scope Life Cycle), and [here](https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$digest) is a document for `$digest()`.
 
 ### New Game 
 
-The easiest way to implement a function to start a new game is to recreate all data objects including chips, cells and message data objects, and call `$apply()` which is called internally by the AngularJS code when clicking a link. However, the game recreation performed poorly in IE11; it took a long time to reset back to its original state.
+The easiest way to implement a function to start a new game is to recreate all data objects including chips, cells and message data objects, and call `$apply()`, which is called internally by the AngularJS code when clicking a link. However, the game recreation performed poorly in IE11; it took a long time to reset back to its original state because it had to recreate all the `<div>` and `<td>` elements. 
 
 The solution is to move the chips back to their pots by only updating the chip and cell data objects that were changed when placing chips in cells with drag and drop, and sending an event to the `chipWidget` directive to reuse the code that places chips in their pots with random positioning. See `gameSetupService.resetBoardAndChips()` in `game_setup_serivce.js` and the `resetChipState` handler in `cell_chip_widget.js` for more details.     
 
