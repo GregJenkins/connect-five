@@ -42,6 +42,7 @@ describe('Controller: boardGame', function () {
             expect(ctrl.reloadBoardGame(false)).toBeFalsy();
             expect(ctrl.newGame).not.toHaveBeenCalled();
             expect(rootScope.$broadcast).toHaveBeenCalled();
+            rootScope.$broadcast.calls.reset();
             // Don't call ctrl.newGame if demo is in progress 
             ctrl.demoObject.inProg = true; 
             expect(ctrl.reloadBoardGame(true)).toBeFalsy();
@@ -92,6 +93,7 @@ describe('Controller: boardGame', function () {
             chipObject = ctrl.getChip(chipId);
             expect(chipObject.id).toEqual(chipId);
             expect(chipObject.color).toEqual('white');
+            // Invalid chip id 
             chipId = 'test_30';
             chipObject = ctrl.getChip(chipId);
             expect(chipObject).toBeNull();        
@@ -117,14 +119,17 @@ describe('Controller: boardGame', function () {
             prevParent.chip = ctrl.currentChip.chip; 
             ctrl.setCurrentChip(argChip, prevParent);
             expect(prevParent.chip).toBeNull();
-            expect(ctrl.currentChip.chip.scope.$digest).toHaveBeenCalled();
-            expect(ctrl.msgObject.scope.$digest).toHaveBeenCalled();
-            expect(ctrl.msgObject.message).toEqual("Black's Turn");
-            expect(ctrl.demoObject.scope.$digest).not.toHaveBeenCalled(); 
-            expect(winService.checkWin).toHaveBeenCalled(); 
-            ctrl.currentChip.chip.scope.$digest.calls.reset();
-            ctrl.msgObject.scope.$digest.calls.reset();
-            winService.checkWin.calls.reset();
+            expect(ctrl.whiteChips[0].scope.$digest).toHaveBeenCalled();
+            ctrl.whiteChips[0].scope.$digest.calls.reset();
+            
+            var result = {demoDigestCalled: false, 
+                          checkWinCalled: true,
+                          currentChipWin: false,
+                          msgAnimate: false, 
+                          msgDigestCalled: true, 
+                          message: "Black's Turn"};
+            checkSetCurrentChipResult(result);
+
             // If passed-in chip is different from the current chip 
             ctrl.currentChip.chip = ctrl.blackChips[0];
             ctrl.currentChip.chip.scope = rootScope.$new(); 
@@ -135,28 +140,72 @@ describe('Controller: boardGame', function () {
             argChip.color = 'black';
             ctrl.setCurrentChip(argChip, prevParent); 
             expect(ctrl.blackChips[0].draggable).toEqual('false'); 
-            expect(ctrl.blackChips[0].scope.$digest).toHaveBeenCalled(); 
+            expect(ctrl.blackChips[0].scope.$digest).toHaveBeenCalled();
             expect(ctrl.currentChip.chip).toBe(argChip); 
             expect(argChip.scope.$digest).toHaveBeenCalled();
-            expect(ctrl.demoObject.scope.$digest).not.toHaveBeenCalled(); 
-            expect(winService.checkWin).toHaveBeenCalled(); 
-            expect(ctrl.msgObject.scope.$digest).toHaveBeenCalled();
-            expect(ctrl.msgObject.message).toEqual("White's Turn");
             argChip.scope.$digest.calls.reset();
-            winService.checkWin.calls.reset();
-            ctrl.msgObject.scope.$digest.calls.reset();
+            
+            result = {demoDigestCalled: false, 
+                      checkWinCalled: true,
+                      currentChipWin: false,
+                      msgAnimate: false, 
+                      msgDigestCalled: true, 
+                      message: "White's Turn"};  
+            checkSetCurrentChipResult(result);
+
             // If passed-in chip is the first chip to place on the 
             // board and it's a winning chip 
             ctrl.currentChip.chip = null;
             winService.checkWin.and.returnValue(true); 
             ctrl.setCurrentChip(argChip, prevParent); 
             expect(ctrl.currentChip.chip).toBe(argChip); 
-            expect(ctrl.demoObject.scope.$digest).toHaveBeenCalled();
-            expect(winService.checkWin).toHaveBeenCalled(); 
-            expect(ctrl.currentChip.win).toBeTruthy(); 
-            expect(ctrl.msgObject.animate).toBeTruthy();
             expect(argChip.scope.$digest).toHaveBeenCalled();
+            result = {demoDigestCalled: true, 
+                      checkWinCalled: true,
+                      currentChipWin: true,
+                      msgAnimate: true, 
+                      msgDigestCalled: true, 
+                      message: 'Black Wins!!!!'};
+            checkSetCurrentChipResult(result); 
+        });  
+    
+    // Helper functions 
+    function checkSetCurrentChipResult (result) { 
+        expect(ctrl.msgObject.message).toEqual(result.message);
+        if (result.msgDigestCalled) {
             expect(ctrl.msgObject.scope.$digest).toHaveBeenCalled();
-            expect(ctrl.msgObject.message).toEqual('Black Wins!!!!');
-        });         
+            ctrl.msgObject.scope.$digest.calls.reset();
+        }
+        else {
+            expect(ctrl.msgObject.scope.$digest).not.toHaveBeenCalled();
+        }
+        if (result.msgAnimate) {
+            expect(ctrl.msgObject.animate).toBeTruthy();
+            ctrl.msgObject.animate = false; 
+        }
+        else {
+            expect(ctrl.msgObject.animate).toBeFalsy();
+        }
+        if (result.currentChipWin) { 
+            expect(ctrl.currentChip.win).toBeTruthy();
+            ctrl.currentChip.win = false; 
+        }
+        else {
+            expect(ctrl.currentChip.win).toBeFalsy();
+        }
+        if (result.demoDigestCalled) {
+            expect(ctrl.demoObject.scope.$digest).toHaveBeenCalled();
+            ctrl.demoObject.scope.$digest.calls.reset();
+        }
+        else {
+             expect(ctrl.demoObject.scope.$digest).not.toHaveBeenCalled();
+        }
+        if (result.checkWinCalled) {
+            expect(winService.checkWin).toHaveBeenCalled(); 
+            winService.checkWin.calls.reset();
+        }
+        else {
+            expect(winService.checkWin).not.toHaveBeenCalled();
+        }
+    }       
 });
