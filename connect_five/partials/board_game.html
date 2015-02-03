@@ -27,7 +27,7 @@
             <td cell-widget ng-repeat="cell in a_row"  style-width="{{ctrl.cellWidth}}" 
                 style-height="{{ctrl.cellHeight}}" id="{{cell.id}}" cell-data="cell" 
                 get-chip="ctrl.getChip(chipId)" set-current-chip="ctrl.setCurrentChip(chip, prevParent)"
-                ng-dblclick="ctrl.placeChip(cell)"></td>
+                ng-click="ctrl.placeChip(cell)"></td>
         </tr>
     </table>
 </div>
