@@ -142,14 +142,67 @@ angular.module('connectFive')
             // Check for a winner
             if (winService.checkWin(self.currentChip.chip, self.cells))
             {
-                self.currentChip.win = true;             
-                self.msgObject.animate = true;
+                self.currentChip.win = true; 
+                if (!boardGameValues.displayForMobile)
+                {
+                    self.msgObject.animate = true;
+                }
             }
             // Call $digest() for only the current chip so 
             // it doesn't update the UI for all the chips 
             self.currentChip.chip.scope.$digest();
             logMessage();
         };
+        
+        // Display for mobile device
+        self.displayForMobile = function() { 
+            return boardGameValues.displayForMobile; 
+        };
+        
+        self.getMessageStyle = function() {
+            return { message: !boardGameValues.displayForMobile, 
+                     messageMobile: boardGameValues.displayForMobile }; 
+        };
+        
+        // Place a chip in a cell with double-click
+        function findNextChip(chips, next) {
+            if (next >= chips.length) {
+                next = 0; 
+            }
+            while (chips[next].parent !== null) {
+                next++;
+                if (next >= chips.length) {
+                    return null;
+                }
+            }
+            return {next: next, 
+                    chip: chips[next]};
+        }
+            
+        self.placeChip = function (cell) {
+            var next, chipObj = null;
+            if (self.currentChip.chip !== null && 
+                self.currentChip.chip.color === 'black') {
+                next = self.currentChip.next.white;
+                chipObj = findNextChip(self.whiteChips, next);
+                if (chipObj !== null) {
+                    self.currentChip.next.white = chipObj.next + 1; 
+                }
+            }
+            else {
+                next = self.currentChip.next.black;
+                chipObj = findNextChip(self.blackChips, next);
+                if (chipObj !== null) {
+                    self.currentChip.next.black = chipObj.next + 1; 
+                }
+            }
+            if (chipObj !== null) { 
+                $timeout(function () {
+                    cell.scope.$emit("makeMoveEvent", chipObj.chip);
+                }, 0, false); 
+            }
+        };
+                
         // Log watch count when $apply() is called                         
         watchCountService.logWatchCount($rootScope);                           
             

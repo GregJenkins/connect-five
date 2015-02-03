@@ -26,4 +26,8 @@ input.ng-dirty {
 
 input.ng-invalid {
     background-color: pink; 
-};
+}
+
+.tabContainer button[disabled] {
+    color: graytext;
+}

@@ -18,6 +18,8 @@ function gameSetupService ()
     function initObjects() {
         currentChip.chip = null;
         currentChip.win = false; 
+        currentChip.next = {black: 0, 
+                            white: 0};
         msgObject.message = 'Play Game!!!!';
         msgObject.animate = false;
         demoObject.inProg = false; 

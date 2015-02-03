@@ -6,10 +6,14 @@ function boardGameValues ()
 {
     var defaultChips = 100, 
         defaultRows = 25, 
-        defaultCols = 40; 
+        defaultCols = 40, 
+        defaultMobileChips = 120,
+        defaultMobileRows = 15,
+        defaultMobileCols = 15; 
     
     var self = this; 
     self.boardGameCtrl = null;
+    self.displayForMobile = false; 
     // Save the "boardGame" controller, so it can call
     // board game methods from the "confugre" controller
     self.init = function(ctrl) {
@@ -47,6 +51,21 @@ function boardGameValues ()
                 (self.numberOfCols == defaultCols) &&
                 (self.numberOfChips == defaultChips));
     };
+    
+    // Set display for mobile
+    self.setMobile = function (mobile) { 
+        if (mobile) { 
+            self.displayForMobile = true; 
+            self.numberOfChips = defaultMobileChips;
+            self.numberOfRows = defaultMobileRows; 
+            self.numberOfCols = defaultMobileCols; 
+        }
+        else {
+            self.displayForMobile = false; 
+            self.setToDefault(); 
+        }
+        self.reloadBoardGame(true); 
+    }
 }
     
 

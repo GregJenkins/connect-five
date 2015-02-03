@@ -1,7 +1,10 @@
 
 <form ng-controller="configure as ctrl" name="configureForm">
     <div>
-    Number of Chips: <input type="number" name="numberofchips" min=10 max=500 required ng-model="ctrl.boardGame.numberOfChips">
+    Number of Chips: <input type="number" name="numberofchips" min=10 max=500 required ng-model="ctrl.boardGame.numberOfChips"
+                            ng-disabled="mobile">
+    <br>
+    <input type="checkbox" ng-model="mobile" ng-change="ctrl.setMobile(mobile)"> Display for Mobile Device
     </div>
     <br>
     <div class="boardGameInputs">
@@ -20,7 +23,8 @@
                     Number of Rows:
                 </td>
                 <td>
-                    <input type="number" name="numberofrows" min=5 max=25 required ng-model="ctrl.boardGame.numberOfRows">
+                    <input type="number" name="numberofrows" min=5 max=25 required ng-model="ctrl.boardGame.numberOfRows" 
+                           ng-disabled="mobile">
                 </td>
             </tr>
             <tr>
@@ -28,7 +32,8 @@
                     Number of Columns: 
                 </td>
                 <td>
-                    <input type="number" name="numberofcols" min=5 max=40 required ng-model="ctrl.boardGame.numberOfCols">
+                    <input type="number" name="numberofcols" min=5 max=40 required ng-model="ctrl.boardGame.numberOfCols" 
+                           ng-disabled="mobile">
                 </td>
             </tr>
         </table>
@@ -36,7 +41,7 @@
     </div>
     <br>
     <div>
-        <button ng-click="ctrl.reloadBoardGame()">Reload Game Board</button> 
-        <button ng-click="ctrl.setToDefault()" ng-show="!ctrl.isDefault()">Default</button>
+        <button ng-click="ctrl.reloadBoardGame()" ng-disabled="mobile">Reload Game Board</button> 
+        <button ng-click="ctrl.setToDefault()" ng-disabled="ctrl.isDefault()">Default</button>
     </div>
 </form>
