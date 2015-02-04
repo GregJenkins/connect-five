@@ -10,6 +10,10 @@ function boardGameValues ()
         defaultMobileChips = 120,
         defaultMobileRows = 15,
         defaultMobileCols = 15; 
+    var defaultCellWidth = 20,
+        defaultCellHeight = 20,
+        dfltMobileCellWidth = 25,
+        dfltMobileCellHeight = 25; 
     
     var self = this; 
     self.boardGameCtrl = null;
@@ -28,6 +32,8 @@ function boardGameValues ()
         self.numberOfChips = defaultChips;
         self.numberOfRows = defaultRows; 
         self.numberOfCols = defaultCols; 
+        self.cellWidth = defaultCellWidth; 
+        self.cellHeight = defaultCellHeight; 
     };
     self.setToDefault();
      
@@ -60,6 +66,8 @@ function boardGameValues ()
         self.numberOfChips = defaultMobileChips;
         self.numberOfRows = defaultMobileRows; 
         self.numberOfCols = defaultMobileCols; 
+        self.cellWidth = dfltMobileCellWidth; 
+        self.cellHeight = dfltMobileCellHeight; 
     };
     
     // Set display for mobile

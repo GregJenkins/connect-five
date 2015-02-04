@@ -147,7 +147,7 @@ function gameSetupService ()
         this.id = 'cell_' + row + '_' + col;
         this.winClass = false;
         this.scope = null; 
-        this.width = 20; 
-        this.height = 20; 
+        this.width = boardGameValues.cellWidth; 
+        this.height = boardGameValues.cellHeight; 
     }
 }

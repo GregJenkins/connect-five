@@ -23,7 +23,6 @@ angular.module('connectFive')
     };
     // Reset to the default values and reload the board game   
     self.setToDefault = function() {
-        $scope.mobile = false; 
         self.boardGame.setToDefault();
         // If it can't reload the board game due to the demo being 
         // in-progress make all input fields dirty to remind the user 

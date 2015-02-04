@@ -89,7 +89,7 @@ td .piece.current {
 }
 
 .cfcontainer.mobile {
-    width: 305px;
+    width: 100%;
 }
 
 .winner {

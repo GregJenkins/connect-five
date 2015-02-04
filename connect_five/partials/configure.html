@@ -42,6 +42,6 @@
     <br>
     <div>
         <button ng-click="ctrl.reloadBoardGame()" ng-disabled="mobile">Reload Game Board</button> 
-        <button ng-click="ctrl.setToDefault()" ng-disabled="ctrl.isDefault()">Default</button>
+        <button ng-click="ctrl.setToDefault()" ng-disabled="ctrl.isDefault() || mobile">Default</button>
     </div>
 </form>
