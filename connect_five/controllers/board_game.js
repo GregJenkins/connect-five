@@ -144,10 +144,7 @@ angular.module('connectFive')
             if (winService.checkWin(self.currentChip.chip, self.cells))
             {
                 self.currentChip.win = true; 
-                if (!boardGameValues.displayForMobile)
-                {
-                    self.msgObject.animate = true;
-                }
+                self.msgObject.animate = true;
             }
             // Call $digest() for only the current chip so 
             // it doesn't update the UI for all the chips 
@@ -193,6 +190,9 @@ angular.module('connectFive')
             
         self.placeChip = function (cell) {
             var next, chipObj = null;
+            if (cell.chip !== null) { 
+                return; 
+            }
             if (self.currentChip.chip !== null && 
                 self.currentChip.chip.color === 'black') {
                 next = self.currentChip.next.white;
