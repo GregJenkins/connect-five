@@ -90,7 +90,7 @@ function demoService ()
             // setting the demo in-progress flag back to false
             $timeout(function() {
                         demo.inProg = false; 
-                     }, 0, false);
+                     }, 0);
         }
     };
 } 

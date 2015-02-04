@@ -5,18 +5,19 @@ angular.module('connectFive')
     .service('demoService', [demoService])
     .service('boardGameValues', [boardGameValues])
     .service('watchCountService', [watchCountService])
+    .service('checkMobileService', [checkMobileService])
     .controller('boardGame', ['winService', 'gameSetupService', 
                               'demoService', '$scope', "$timeout",
                               'boardGameValues', '$rootScope',
-                              'watchCountService',
+                              'watchCountService', 'checkMobileService',
                               function(winService, gameSetupService, 
                                        demoService, $scope, $timeout,
                                        boardGameValues, $rootScope,
-                                       watchCountService) {
+                                       watchCountService, checkMobileService) {
         var self = this;
 
         // Intitalize the board game service 
-        boardGameValues.init(self);                                
+        boardGameValues.init(self, checkMobileService.isMobile());                                
     
         // Method to reload the board game. It's called from the 
         // confgure page 
@@ -160,8 +161,14 @@ angular.module('connectFive')
         };
         
         self.getMessageStyle = function() {
-            return { message: !boardGameValues.displayForMobile, 
-                     messageMobile: boardGameValues.displayForMobile }; 
+            return { message: true, 
+                     mobile: boardGameValues.displayForMobile }; 
+        };
+                                  
+        self.getMsgContainerStyle = function() {      
+            return { center: true, 
+                     container: true,
+                     mobile: boardGameValues.displayForMobile }; 
         };
         
         // Place a chip in a cell with double-click

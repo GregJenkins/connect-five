@@ -1,9 +1,10 @@
 angular.module('connectFive')
-.controller('configure', ['$scope', 'boardGameValues', 
+.controller('configure', ['$scope', 'boardGameValues',
                           function ($scope, boardGameValues){
     
     var self = this; 
     self.boardGame = boardGameValues;
+    $scope.mobile = self.boardGame.displayForMobile; 
     // Reload the board game if any board game value has 
     // been changed 
     self.reloadBoardGame = function() {
@@ -47,6 +48,6 @@ angular.module('connectFive')
     // Set display for mobile 
     self.setMobile = function (mobile) { 
         self.boardGame.setMobile(mobile); 
-    };    
-        
+    }; 
+                              
 }]); 

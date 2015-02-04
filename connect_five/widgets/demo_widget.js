@@ -3,7 +3,7 @@ angular.module('connectFive')
     return {
         restrict: 'A',
         // Allow to hide and show the demo link 
-        template: '<a ng-show="currentChip.showDemo()">Demo</a>',
+        template: '<button ng-disabled="!currentChip.showDemo()">Demo</button>',
         replace: true, 
         scope: {
             currentChip: '=',

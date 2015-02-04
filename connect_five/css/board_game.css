@@ -77,16 +77,17 @@ td .piece.current {
     width: 80%;
 }
 
-.messageMobile {
-    height: 20px; 
-    border: 1px solid black; 
-    padding: 0px 5px 0px 5px;
-    display: inline-block;
-    width: 180px;
+.message.mobile {
+    width: 100%;
+    margin-bottom: 5px;
 }    
 
 .container {
     width: 500px; 
+}
+
+.container.mobile {
+    width: 335px;
 }
 
 .winner {
