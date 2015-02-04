@@ -8,12 +8,12 @@ function boardGameValues ()
         defaultRows = 25, 
         defaultCols = 40, 
         defaultMobileChips = 120,
-        defaultMobileRows = 15,
-        defaultMobileCols = 15; 
+        defaultMobileRows = 10,
+        defaultMobileCols = 10; 
     var defaultCellWidth = 20,
         defaultCellHeight = 20,
-        dfltMobileCellWidth = 25,
-        dfltMobileCellHeight = 25; 
+        dfltMobileCellWidth = 35,
+        dfltMobileCellHeight = 35; 
     
     var self = this; 
     self.boardGameCtrl = null;
