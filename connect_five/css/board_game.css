@@ -80,14 +80,16 @@ td .piece.current {
 .message.mobile {
     width: 100%;
     margin-bottom: 5px;
+    font-size: 0.8em;
+    height: 15px;
 }    
 
-.container {
+.cfcontainer {
     width: 500px; 
 }
 
-.container.mobile {
-    width: 335px;
+.cfcontainer.mobile {
+    width: 305px;
 }
 
 .winner {

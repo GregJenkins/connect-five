@@ -11,7 +11,7 @@
     </div>
     <br>
     <!-- two chip bowls -->
-    <div class="center container" ng-show="!ctrl.displayForMobile()">
+    <div class="center cfcontainer" ng-show="!ctrl.displayForMobile()">
         <div id="blackPot" class="pot leftPot" >
             <div chip-widget ng-repeat="chip in ctrl.blackChips" chip-data="chip" id="{{chip.id}}" 
                  current-chip="ctrl.currentChip"></div>
@@ -22,7 +22,7 @@
         </div>
     </div>
     <!-- game board -->
-    <table class="board center" >
+    <table ng-class="ctrl.getTableStyle()" >
         <tr ng-repeat="a_row in ctrl.cells">
             <td cell-widget ng-repeat="cell in a_row"  style-width="{{ctrl.cellWidth}}" 
                 style-height="{{ctrl.cellHeight}}" id="{{cell.id}}" cell-data="cell" 

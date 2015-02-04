@@ -166,11 +166,16 @@ angular.module('connectFive')
         };
                                   
         self.getMsgContainerStyle = function() {      
-            return { center: true, 
-                     container: true,
+            return { center: !boardGameValues.displayForMobile, 
+                     cfcontainer: true,
                      mobile: boardGameValues.displayForMobile }; 
         };
         
+        self.getTableStyle = function() {
+            return {board: true, 
+                    center: !boardGameValues.displayForMobile};
+        };
+                                  
         // Place a chip in a cell with double-click
         function findNextChip(chips, next) {
             if (next >= chips.length) {
