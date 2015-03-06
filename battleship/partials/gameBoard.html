@@ -1,0 +1,34 @@
+<div class="game-container">
+    <div ng-class="{win: player.win}">{{player.name}}</div>
+    <br>
+    <table class="gameboard">
+        <tr ng-repeat="a_row in playerGrid">
+            <td ng-repeat="cell in a_row" ng-class="cell.getClassName()" >
+                <img src="/battleship/resources/red_cross.png" ng-show="cell.attacked">
+            </td>
+        </tr> 
+    </table>
+    <br>
+    <form name="ships">
+        <table>
+        <tr ng-repeat="ship in playerShips" ng-show="!player.ready">
+            <td>{{ship.name}}(size: {{ship.size}}):</td> 
+            <td>row: <input type="number" ng-class="{invalid: ship.invalid}" min=0 max={{getMaxRows}} ng-model="ship.row" 
+                            ng-blur="onblur(ship)"></td>
+            <td>col: <input type="number" ng-class="{invalid: ship.invalid}" min=0 max={{getMaxCols}} ng-model="ship.col"
+                            ng-blur="onblur(ship)"></td>
+        </tr>
+        <tr ng-show="!player.ready">
+            <td></td><td></td><td class="ready-button"> <button ng-click="ready()">Ready</button> </td>
+        </tr>    
+        <tr ng-show="player.ready">
+            <td>row: <input type="number" min=0 max={{getMaxRows}} ng-model="location.row"></td>
+            <td>col: <input type="number" min=0 max={{getMaxCols}} ng-model="location.col"></td>
+            <td> <button ng-click="attackShip()" ng-disabled="!player.turn || !playerReady() || hasWinner()">Attack</button> </td>
+        </tr>
+        <tr class="sunk-ship" ng-repeat="ship in sunkShips()">
+            <td colspan=3>{{ship.name}}(size: {{ship.size}}) is destroyed</td>
+        </tr>
+        </table>    
+    </form>
+</div>

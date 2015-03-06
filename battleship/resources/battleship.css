@@ -1,0 +1,47 @@
+.gameboard {
+    border: 1px solid gray; 
+    border-spacing: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gameboard .cell {
+    border: 1px solid gray; 
+    width: 20px;
+    height: 20px;    
+}
+
+.gameboard .battleship {
+    background-color: lightgray;
+}
+
+.gameboard td img {
+    vertical-align: middle;
+}
+
+input.invalid, input.ng-invalid {
+    background-color: pink; 
+}
+
+.game-container {
+    display: inline-block; 
+    margin: 20px; 
+}
+
+.game-container button[disabled] {
+    color: graytext;
+}
+
+.game-container .win {
+    color: red; 
+    font-weight: bold;
+}
+
+.game-container .ready-button {
+    text-align: right; 
+}
+
+.game-container .sunk-ship {
+    color: red;
+}
+
