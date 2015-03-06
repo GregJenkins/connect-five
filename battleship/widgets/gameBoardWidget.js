@@ -2,7 +2,7 @@ angular.module('battleship')
 .directive('gameBoardWidget', [function () {
    return {
     restrict: 'E',
-    templateUrl: '/battleship/partials/gameBoard.html',
+    templateUrl: './partials/gameBoard.html',
     replace: true, 
     scope: {
         player: '=',

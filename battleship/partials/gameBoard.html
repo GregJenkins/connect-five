@@ -4,7 +4,7 @@
     <table class="gameboard">
         <tr ng-repeat="a_row in playerGrid">
             <td ng-repeat="cell in a_row" ng-class="cell.getClassName()" >
-                <img src="/battleship/resources/red_cross.png" ng-show="cell.attacked">
+                <img src="./resources/red_cross.png" ng-show="cell.attacked">
             </td>
         </tr> 
     </table>
