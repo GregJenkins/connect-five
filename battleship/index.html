@@ -15,11 +15,13 @@
         <game-board-widget player="ctrl.player1" player-grid="ctrl.playerGrid1" 
                            player-ships="ctrl.playerShips1" attack="ctrl.attack(attacker, location)"
                            player-ready="ctrl.playerReady()" has-winner="ctrl.hasWinner()" 
-                           start-computer-player="ctrl.startComputerPlayer(player)"></game-board-widget>
+                           start-computer-player="ctrl.startComputerPlayer(player)"
+                           opponent-sunk-ships="ctrl.opponentSunkShips(player)"></game-board-widget>
         <game-board-widget player="ctrl.player2" player-grid="ctrl.playerGrid2" 
                            player-ships="ctrl.playerShips2"  attack="ctrl.attack(attacker, location)"
                            player-ready="ctrl.playerReady()" has-winner="ctrl.hasWinner()"
-                           start-computer-player="ctrl.startComputerPlayer(player)"></game-board-widget>
+                           start-computer-player="ctrl.startComputerPlayer(player)"
+                           opponent-sunk-ships="ctrl.opponentSunkShips(player)"></game-board-widget>
         </div>
     </body>
 </html>

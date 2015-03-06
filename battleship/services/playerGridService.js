@@ -3,7 +3,8 @@ function playerGridService () {
     // Create an array to save cell data 
     self.createPlayerGrid = function(gridSize, playerName) {
         var player = {name: playerName, turn: false, 
-                      win: false, ready: false}; 
+                      win: false, ready: false, 
+                      result: ''}; 
         var rows = gridSize.rows; 
         var cols = gridSize.cols;
         var playerGrid = [];

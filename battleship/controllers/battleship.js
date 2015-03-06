@@ -18,11 +18,11 @@ angular.module('battleship', [])
     // Create player objects and grid arrays for two players              
     var gridData = playerGridService.createPlayerGrid(self.gridSize, 'Player One');
     self.playerGrid1 = gridData.playerGrid; 
-    self.player1 = gridData.player; 
-    self.player1.turn = true; 
+    self.player1 = gridData.player;                               
     gridData = playerGridService.createPlayerGrid(self.gridSize, 'Player Two');
     self.playerGrid2 = gridData.playerGrid; 
     self.player2 = gridData.player; 
+    self.player1.turn = true; 
     
     // Create ship arrays                                
     self.playerShips1 = shipService.createShips(self.ships);
@@ -66,15 +66,33 @@ angular.module('battleship', [])
             alert('This location is already attacked (row: ' + row + ' col: ' + col + ')'); 
             return; 
         }
-        cell.attacked = true; 
+        cell.attacked = true;
         if (cell.battleship !== null) {
             cell.battleship.attacked();
-            checkWinner(attacker);
-        }     
+            attacker.result = 'Hit ' + cell.battleship.name + 
+                              '(life: ' + cell.battleship.life + ')';
+            if (checkWinner(attacker)) {
+                return;
+            }
+        }
+        else {
+            attacker.result = 'You Missed'; 
+        }
         switchPlayer(attacker);
         return; 
     };
-    
+                                   
+    // Display opponent's sunk ships 
+    self.opponentSunkShips = function (attacker) { 
+        var playerShips = (attacker === self.player1 ? self.playerShips2 : self.playerShips1); 
+        var sunks = []; 
+        for (var i = 0; i < playerShips.length; i++) {
+            if (playerShips[i].destroyed) {
+                sunks.push(playerShips[i]);
+            }
+        }
+        return sunks;
+    }
     // Switch to a different user and if it's player2's turn, it also 
     // calls the computer player's method to attack 
     function switchPlayer (attacker) {
@@ -91,13 +109,24 @@ angular.module('battleship', [])
     
     // Check for a winner and display winning message if there is a winner                              
     function checkWinner(attacker) {
-        var playerShips = (attacker === self.player1 ? self.playerShips2 : self.playerShips1); 
+        var playerShips, player;  
+        if (attacker === self.player1) {
+            playerShips = self.playerShips2; 
+            player = self.player2;
+        }
+        else {
+            playerShips = self.playerShips1; 
+            player = self.player1;
+        }
+        
         for (var i = 0; i < playerShips.length; i++) {
             if (!playerShips[i].destroyed) {
-                return;
+                return false;
             }
         }
         attacker.win = true;
-        attacker.name = attacker.name + " Wins!!!"; 
+        attacker.result = 'You Win!!!'; 
+        player.result = 'You Lose'; 
+        return true;
     }
 }]);    

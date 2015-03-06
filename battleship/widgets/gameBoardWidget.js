@@ -11,7 +11,8 @@ angular.module('battleship')
         attack: '&',
         playerReady: '&',
         hasWinner: '&',
-        startComputerPlayer: '&'
+        startComputerPlayer: '&',
+        opponentSunkShips: '&'
     },
     link: function ($scope, $element, $attrs) {
         $scope.shipReady = false; 
@@ -108,13 +109,7 @@ angular.module('battleship')
         // Return a list of sunk ships, so it can display which ships are 
         // detroyed 
         $scope.sunkShips = function() { 
-            var sunks = []; 
-            for (var i = 0; i < $scope.playerShips.length; i++) {
-                if ($scope.playerShips[i].destroyed) {
-                    sunks.push($scope.playerShips[i]);
-                }
-            }
-            return sunks;
+            return $scope.opponentSunkShips({player: $scope.player});
         }
         
         // After each attack, reset the location back to nulls 
