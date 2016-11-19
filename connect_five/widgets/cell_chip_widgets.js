@@ -1,5 +1,5 @@
 angular.module('connectFive')   
-    .directive('chipWidget', [function() {
+    .directive('chipWidget', ['connectionService', function(connectionService) {
         return {
             restrict: 'A',
             // Create template to use the isolate scope and call $digest() in 
@@ -25,7 +25,8 @@ angular.module('connectFive')
                 $element.bind('dragstart', function (event) {
                     if (($scope.chipData.inPot() && 
                          !$scope.chipData.isMyTurn()) ||
-                        $scope.chipData.isDemo())
+                        $scope.chipData.isDemo() || 
+                        connectionService.forbidThisChip($scope.chipData.color))
                     {
                         event.dataTransfer.effectAllowed = 'none'; 
                     }

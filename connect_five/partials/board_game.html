@@ -12,11 +12,11 @@
     <br>
     <!-- two chip bowls -->
     <div class="center cfcontainer" ng-show="!ctrl.displayForMobile()">
-        <div id="blackPot" class="pot leftPot" >
+        <div id="blackPot" ng-class="{pot: true,leftPot: true, disable: ctrl.disableBlackPot()}" >
             <div chip-widget ng-repeat="chip in ctrl.blackChips" chip-data="chip" id="{{chip.id}}" 
                  current-chip="ctrl.currentChip"></div>
         </div>
-         <div id="whitePot" class="pot rightPot">
+         <div id="whitePot" ng-class="{pot: true, rightPot: true, disable: ctrl.disableWhitePot()}">
             <div chip-widget ng-repeat="chip in ctrl.whiteChips" chip-data="chip" id="{{chip.id}}" 
                  current-chip="ctrl.currentChip"></div>
         </div>

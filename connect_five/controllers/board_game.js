@@ -6,19 +6,32 @@ angular.module('connectFive')
     .service('boardGameValues', [boardGameValues])
     .service('watchCountService', [watchCountService])
     .service('checkMobileService', [checkMobileService])
+    .service('connectionService', ["$q", "$timeout", "$rootScope", connectionService])
     .controller('boardGame', ['winService', 'gameSetupService', 
                               'demoService', '$scope', "$timeout",
                               'boardGameValues', '$rootScope',
                               'watchCountService', 'checkMobileService',
+                              'connectionService',
                               function(winService, gameSetupService, 
                                        demoService, $scope, $timeout,
                                        boardGameValues, $rootScope,
-                                       watchCountService, checkMobileService) {
+                                       watchCountService, checkMobileService,
+                                       connectionService) {
         var self = this;
 
         // Intitalize the board game service 
-        boardGameValues.init(self, checkMobileService.isMobile());                                
+        boardGameValues.init(self, checkMobileService.isMobile());
+        connectionService.init(self); 
     
+        self.disableBlackPot = function() { 
+            return (connectionService.useConnect && 
+                    connectionService.chipColor === 'white'); 
+        };
+        self.disableWhitePot = function() { 
+            return (connectionService.useConnect && 
+                    connectionService.chipColor === 'black'); 
+        };
+                                  
         // Method to reload the board game. It's called from the 
         // confgure page 
         self.reloadBoardGame = function (isUpdated) 
@@ -56,9 +69,18 @@ angular.module('connectFive')
             else 
             {
                 // Reset the game back to its initial state
-                gameSetupService.resetBoardAndChips(self.cells, self.blackChips, 
-                                                    self.whiteChips); 
+                self.resetBoardAndChips();
+                if (connectionService.useConnect) { 
+                    connectionService.connection.send({op: 'newGame'});
+                    self.whoseTurn(); 
+                }
             }
+        };
+                                  
+        self.resetBoardAndChips = function () {
+            
+            gameSetupService.resetBoardAndChips(self.cells, self.blackChips, 
+                                                    self.whiteChips);
         };
                           
         self.newGame(true);                           
@@ -92,18 +114,38 @@ angular.module('connectFive')
         
         // Internal function to set the text in the top message box 
         // according to the state of the current chip object 
+        function useConnectMsg (str, color) {
+            if (connectionService.useConnect) {
+                if (self.currentChip.win) { 
+                    str = (color === connectionService.chipColor ? "You Win!!!!" : "You Lose!!!!");
+                }
+                else {
+                    str = (color === connectionService.chipColor ? "Other's Turn" : "Your Turn");
+                }
+            }
+            return str; 
+        }
         function logMessage()
         {
-            if (self.currentChip.chip.color == 'black')
+            var color, str; 
+            if (self.currentChip.chip === null) {
+                color = 'white';
+            }
+            else { 
+                color = self.currentChip.chip.color;
+            }
+            if (color === 'black')
             {
-                
-                self.msgObject.message = (self.currentChip.win ? "Black Wins!!!!" : "White's Turn");
+                str = (self.currentChip.win ? "Black Wins!!!!" : "White's Turn"); 
             }
             else 
             {
-                self.msgObject.message = (self.currentChip.win ? "White Wins!!!!" : "Black's Turn");
+                str = (self.currentChip.win ? "White Wins!!!!" : "Black's Turn");
             }
-            self.msgObject.scope.$digest();
+            self.msgObject.message = useConnectMsg(str, color);
+            if (!$rootScope.$$phase) { 
+                self.msgObject.scope.$digest();
+            }
         }
         
         // Method to save the current chip object. The current chip 
@@ -149,6 +191,13 @@ angular.module('connectFive')
             // Call $digest() for only the current chip so 
             // it doesn't update the UI for all the chips 
             self.currentChip.chip.scope.$digest();
+            if (!connectionService.forbidThisChip(chip.color)) {
+                var cell = chip.parent; 
+                var obj = {op: 'move', row: cell.row, col: cell.col, 
+                           color: chip.color, index: chip.index};
+                var connection = connectionService.getConnection(); 
+                connection.send(obj); 
+            }
             logMessage();
         };
         
@@ -195,6 +244,9 @@ angular.module('connectFive')
             }
             if (self.currentChip.chip !== null && 
                 self.currentChip.chip.color === 'black') {
+                if (connectionService.forbidThisChip('white')) {
+                    return;
+                }
                 next = self.currentChip.next.white;
                 chipObj = findNextChip(self.whiteChips, next);
                 if (chipObj !== null) {
@@ -202,6 +254,9 @@ angular.module('connectFive')
                 }
             }
             else {
+                if (connectionService.forbidThisChip('black')) {
+                    return;
+                }
                 next = self.currentChip.next.black;
                 chipObj = findNextChip(self.blackChips, next);
                 if (chipObj !== null) {
@@ -214,6 +269,24 @@ angular.module('connectFive')
                 }, 0, false); 
             }
         };
+            
+        self.whoseTurn = function () {
+            logMessage();
+        };
+                                  
+        self.moveChip = function(obj) {
+            var cell = self.cells[obj.row][obj.col]; 
+            if (typeof cell !== 'undefined') {
+                var chips = (obj.color === 'black' ? self.blackChips : self.whiteChips); 
+                var chip = chips[obj.index]; 
+                if (typeof chip !== 'undefined') { 
+                    $timeout(function () {
+                        cell.scope.$emit("makeMoveEvent", chip);
+                    }, 0, false); 
+                }
+            }
+        };
+                
                 
         // Log watch count when $apply() is called                         
         watchCountService.logWatchCount($rootScope);                           

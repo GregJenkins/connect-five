@@ -86,7 +86,8 @@ function gameSetupService ()
     // Game chip object constructor 
     function gameChip (color, index)
     {
-        this.color = color; 
+        this.color = color;
+        this.index = index; 
         this.id = this.color + '_' + index;
         this.draggable = 'true'; 
         this.parent = null; 
